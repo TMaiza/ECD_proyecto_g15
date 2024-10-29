@@ -4,7 +4,6 @@ import pandas as pd
 import sqlite3
 
 df = pd.read_csv('laptop_price.csv')
-print(df.columns)
 
 #DESGLOSE INFO DE RESOLUCÍON
 
@@ -98,6 +97,31 @@ conn = sqlite3.connect('laptop_prices.sqlite')
 
 # Guardar los datos en SQLite, respetando la estructura existente
 df.to_sql('laptops', conn, if_exists='append', index=False)
+
+# Seleccionar columnas para tabla acotada
+l = [
+     'Price_euros',
+    'Product', 
+    'Company', 
+    'TypeName', 
+    'OpSys', 
+    'Inches', 
+    'Weight_KG', 
+    'Touchscreen', 
+    'ResolutionNumber', 
+    'GPU_brand',
+    'CPU_brand', 
+    'RAM_GB', 
+    'HDD_space', 
+    'SSD_space', 
+    'Flash_space', 
+    'Hybrid_space'
+]
+
+columnas_seleccionadas = df[l]
+
+# Crear la nueva tabla en la base de datos SQLite
+columnas_seleccionadas.to_sql('laptops_acotada', conn, if_exists='replace', index=False)
 
 # Cerrar la conexión
 conn.close()
