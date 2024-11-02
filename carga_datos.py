@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 
 import pandas as pd
 import sqlite3
@@ -93,10 +92,10 @@ df['Weight_KG'] = df['Weight'].apply(convert_weight)
 
 
 # Conectar a la base de datos SQLite
-conn = sqlite3.connect('laptop_prices.sqlite')
+conn = sqlite3.connect('laptop_prices_final.sqlite')
 
-# Guardar los datos en SQLite, respetando la estructura existente
-df.to_sql('laptops', conn, if_exists='append', index=False)
+# Guardar los datos en SQLite, reemplazando si existe otra tabla
+df.to_sql('laptops', conn, if_exists='replace', index=False)
 
 # Seleccionar columnas para tabla acotada
 l = [
