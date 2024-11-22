@@ -189,3 +189,8 @@ plt.xlabel('Modelos')
 plt.ylim(0, max(mse_scores) + 0.05)
 plt.grid(axis='y', linestyle='--', alpha=0.7)
 plt.show()
+
+
+import plotly.tools as tls
+
+plotly_fig = tls.mpl_to_plotly(fig)
