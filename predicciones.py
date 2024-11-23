@@ -99,7 +99,14 @@ def plot_model_performance(df, y_test, y_pred_knn, y_pred_rf, y_pred_lasso, rf_m
     fig1.add_trace(go.Scatter(x=y_test, y=y_pred_knn, mode='markers', name='Predicción KNN', marker=dict(color='blue')))
     fig1.add_trace(go.Scatter(x=y_test, y=y_pred_rf, mode='markers', name='Predicción Random Forest', marker=dict(color='green')))
     fig1.add_trace(go.Scatter(x=y_test, y=y_pred_lasso, mode='markers', name='Predicción Lasso', marker=dict(color='red')))
-    
+    # Agregar la línea con pendiente 1
+    fig1.add_trace(go.Scatter(
+        x=y_test, 
+        y=y_test,  # Línea y = x
+        mode='lines', 
+        name='Predicción = valor real', 
+        line=dict(color='yellow', dash='dash')
+    ))
     fig1.update_layout(
         title="Comparación entre valores reales y predicciones",
         xaxis_title="Valores reales",
