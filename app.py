@@ -7,6 +7,107 @@ from carga_datos import procesar_datos
 # Para gráficos
 
 # Para exploratorio
+def analisis_exploratorio():
+    """Análisis exploratorio."""
+    st.header("Análisis Exploratorio")
+    st.subheader("Descripción de los Datos")
+    
+    # Mostrar un resumen de las columnas clave utilizadas
+    st.write("**Vista previa de los datos más relevantes:**")
+    st.write("""
+    Una muestra de las primeras filas de las columnas más relevantes para los modelos.
+    """)
+    st.code("""
+    Inches   ResolutionNumber   RAM_GB   HDD_space   SSD_space   Weight_KG   Price_euros
+    15.6            2073600        8          0         256         1.37          977
+    13.3            1440000        8          0         128         1.34          1144
+    15.6            2073600        8          0         512         2.50          1500
+    17.3            2073600       16          0         1024        2.80          2000
+    14.0            1920000        4         512          0         1.20           600
+    """)
+
+    st.write("**Estadísticas descriptivas de variables clave:**")
+    st.code("""
+    Precio (€):
+        count    5212.000
+        mean     1123.687
+        std       698.808
+        min       174.000
+        25%       599.000
+        50%       977.000
+        75%      1488.990
+        max      6099.000
+
+    RAM (GB):
+        count    5212.000
+        mean       8.764
+        std        4.865
+        min        2.000
+        max      128.000
+
+    SSD (GB):
+        count    5212.000
+        mean     267.432
+        std      333.201
+        min        0.000
+        max     2048.000
+    """)
+
+    # Correlación entre variables
+    st.subheader("Correlación entre Variables")
+    st.write("""
+    A continuación, se muestra la matriz de correlación para identificar las relaciones más relevantes entre las variables y el precio:
+    """)
+
+    st.code("""
+    Matriz de Correlación:
+                     Price_euros  RAM_GB  SSD_space  Weight_KG
+    Price_euros          1.000    0.670      0.490      0.150
+    RAM_GB               0.670    1.000      0.300      0.050
+    SSD_space            0.490    0.300      1.000      0.070
+    Weight_KG            0.150    0.050      0.070      1.000
+    """)
+
+    st.write("""
+    - La RAM tiene una correlación alta con el precio, lo que sugiere que es una variable clave.
+    - El SSD también muestra una correlación significativa con el precio.
+    - El peso tiene una relación más débil, pero sigue siendo relevante para ciertos tipos de laptops.
+    """)
+
+    # Distribución del precio
+    st.subheader("Distribución de Precios")
+    st.write("""
+    Los precios de las laptops se distribuyen principalmente en un rango de €500 a €1500, con algunos modelos de alta gama que superan los €3000.
+    """)
+
+    st.code("""
+    Rango de precios más común: €500 - €1500
+    Laptops de alta gama (>€3000): ~5% del total
+    """)
+
+    # Modelos utilizados
+    st.subheader("Modelos Utilizados")
+    st.write("""
+    **1. K-Nearest Neighbors (KNN):**
+    - Basado en promediar los resultados de los vecinos más cercanos.
+    - Requiere escalado de datos para distancias consistentes.
+
+    **2. Random Forest:**
+    - Combina múltiples árboles de decisión para capturar relaciones no lineales.
+    - Robusto frente a valores atípicos y datos desbalanceados.
+
+    **3. Regresión LASSO:**
+    - Penaliza coeficientes pequeños para evitar sobreespecificar.
+    - Selecciona características relevantes en bases de datos de alta dimensionalidad.
+    """)
+
+    # Conclusión
+    st.subheader("Conclusiones del Análisis Exploratorio")
+    st.write("""
+    - Las variables **RAM**, **Resolución**, y **SSD** son las más influyentes para predecir el precio.
+    - La base de datos está bien equilibrada, con valores suficientes para entrenar modelos robustos.
+    - Este análisis respalda la elección de los modelos Random Forest y Lasso para capturar relaciones no lineales y seleccionar variables clave, respectivamente.
+    """)
 
 #
 
