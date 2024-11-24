@@ -1,46 +1,36 @@
 import pandas as pd
 import sqlite3
 
+# Cargar datos desde un archivo CSV.
 def cargar_datos(filepath):
-    """
-    Cargar datos desde un archivo CSV.
-    """
     return pd.read_csv(filepath)
 
+# Procesar la columna ScreenResolution para extraer Touchscreen y ResolutionNumber.
 def procesar_screen_resolution(df):
-    """
-    Procesar la columna ScreenResolution para extraer Touchscreen y ResolutionNumber.
-    """
     df['Touchscreen'] = df['ScreenResolution'].apply(lambda x: 1 if 'touch' in str(x).lower() else 0)
     df['ResolutionNumber'] = df['ScreenResolution'].str.extract(r'(\d+x\d+)')
-    
+
     def calcular_area(resolution):
         width, height = map(int, resolution.split('x'))
         return width * height
-    
+
     df['ResolutionNumber'] = df['ResolutionNumber'].apply(calcular_area)
     return df
 
+# Procesar la columna Cpu para extraer CPU_brand.
 def procesar_cpu(df):
-    """
-    Procesar la columna Cpu para extraer CPU_brand.
-    """
     df['CPU_brand'] = df['Cpu'].apply(
         lambda x: 'Intel' if 'intel' in x.lower() else ('AMD' if 'amd' in x.lower() else 'Samsung')
     )
     return df
 
+# Procesar la columna Ram para extraer RAM_GB.
 def procesar_ram(df):
-    """
-    Procesar la columna Ram para extraer RAM_GB.
-    """
     df['RAM_GB'] = df['Ram'].str.extract(r'(\d+)').astype(int)
     return df
 
+# Procesar la columna Memory para extraer HDD_space, SSD_space, Flash_space y Hybrid_space.
 def procesar_memoria(df):
-    """
-    Procesar la columna Memory para extraer HDD_space, SSD_space, Flash_space y Hybrid_space.
-    """
     df['HDD_space'] = 0
     df['SSD_space'] = 0
     df['Flash_space'] = 0
@@ -69,10 +59,8 @@ def procesar_memoria(df):
     df['Memory'].apply(assign_memory_spaces)
     return df
 
+# Procesar la columna Gpu para extraer GPU_brand.
 def procesar_gpu(df):
-    """
-    Procesar la columna Gpu para extraer GPU_brand.
-    """
     def get_gpu_brand(gpu_str):
         if 'Nvidia' in gpu_str:
             return 'Nvidia'
@@ -88,20 +76,16 @@ def procesar_gpu(df):
     df['GPU_brand'] = df['Gpu'].apply(get_gpu_brand)
     return df
 
+# Procesar la columna Weight para convertir a kilogramos.
 def procesar_peso(df):
-    """
-    Procesar la columna Weight para convertir a kilogramos.
-    """
     def convert_weight(weight_str):
         return float(weight_str.replace('kg', '').strip())
 
     df['Weight_KG'] = df['Weight'].apply(convert_weight)
     return df
 
+# Procesar la columna OpSys para normalizar nombres.
 def procesar_op_sys(df):
-    """
-    Procesar la columna OpSys para normalizar nombres.
-    """
     def modificar_opsys(opsys):
         if 'Windows' in opsys:
             return 'Windows'
@@ -115,10 +99,8 @@ def procesar_op_sys(df):
     df['OpSys'] = df['OpSys'].apply(modificar_opsys)
     return df
 
+# Guardar los datos procesados en una base de datos SQLite.
 def guardar_datos(df, database_path):
-    """
-    Guardar los datos procesados en una base de datos SQLite.
-    """
     conn = sqlite3.connect(database_path)
     
     # Guardar todos los datos
@@ -135,10 +117,9 @@ def guardar_datos(df, database_path):
 
     conn.close()
 
+# Función principal para procesar todos los datos y guardarlos en SQLite.
 def procesar_datos(filepath="laptop_price.csv", database_path='laptop_prices_final.sqlite'):
-    """
-    Función principal para procesar todos los datos y guardarlos en SQLite.
-    """
+
     df = cargar_datos(filepath)
     df = procesar_screen_resolution(df)
     df = procesar_cpu(df)
@@ -149,4 +130,5 @@ def procesar_datos(filepath="laptop_price.csv", database_path='laptop_prices_fin
     df = procesar_op_sys(df)
     guardar_datos(df, database_path)
 
+# Ejecutar la función principal
 procesar_datos()

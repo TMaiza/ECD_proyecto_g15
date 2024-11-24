@@ -23,20 +23,24 @@ conn.close()
 # Mostrar el DataFrame
 print(df)
 
-######## RECORDAR CITAR CODIGO ###################
-
 ##Head del DF
 head= df.head(10)
 
+##describe del precio##
 
-##Matriz de corr##
+df['Price_euros'].describe()
+
+##Histograma del precio## codigo obtenido de link: https://www.kaggle.com/code/abonaplata/analisis-exploratorio-de-datos-con-python?scriptVersionId=17204829&cellId=21
+sns.distplot(df['Price_euros'])
+
+##Matriz de corr## codigo obtenido de link: https://www.kaggle.com/code/abonaplata/analisis-exploratorio-de-datos-con-python?scriptVersionId=17204829&cellId=21
 df_numerico = df.select_dtypes(include=['number'])
 corrmat = df_numerico.corr()
 f, ax = plt.subplots(figsize=(12, 9))
 sns.heatmap(corrmat, vmax=.8, square=True);
 
 
-##Grafico de cajas
+##Grafico de cajas## codigo obtenido de link: https://www.kaggle.com/code/abonaplata/analisis-exploratorio-de-datos-con-python?scriptVersionId=17204829&cellId=21
 var = 'Hybrid_space'
 data = pd.concat([df['Price_euros'], df[var]], axis=1)
 f, ax = plt.subplots(figsize=(20, 12))
@@ -44,26 +48,14 @@ fig = sns.boxplot(x=var, y="Price_euros", data=data)
 fig.axis(ymin=0, ymax=7000)
 
 
-##Grafico de dispersion
+##Grafico de dispersion## codigo obtenido de link: https://www.kaggle.com/code/mohamedhaithamyamani/laptop-price-prediction-with-eda?scriptVersionId=197820240&cellId=14
 plt.figure(figsize=(7,10)) 
 sns.scatterplot(df, x='Price_euros', y='ScreenResolution')
 plt.show()
 
 
-##matriz corr univariable
-corr = df_numerico.corr()
-corr[['Price_euros']].sort_values(by = 'Price_euros',ascending = False).style.background_gradient()
 
 
-##describe del precio
-
-df['Price_euros'].describe()
-
-
-##Histograma del precio
-sns.distplot(df['Price_euros'])
-
-##Cajones o graf dispersion (para variables no numericas)
 
 
 
