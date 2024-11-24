@@ -6,7 +6,7 @@ from carga_datos import procesar_datos
 #procesar_datos()
 
 # Configuración de las pestañas
-tabs = st.tabs(["Inicio", "Prediccion", "Rendimiento de los modelos", "Analisis Exploratorio"])
+tabs = st.tabs(["Inicio", "Predicción", "Rendimiento de los modelos", "Análisis Exploratorio"])
 
 # Pestaña de inicio
 with tabs[0]:
